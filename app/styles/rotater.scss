@@ -1,0 +1,155 @@
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#slide-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  transform: translateZ(0);
+  opacity: 0;
+
+  &.transition {
+    transition: opacity 1s ease;
+  }
+
+  canvas {
+    transition: transform 1s ease;
+    // transform: translate3d(0,10px,0) scale(0.9);
+  }
+
+  // &.active canvas {
+  //   transform: translate3d(0,0,0) scale(1);
+  // }
+}
+
+@media only screen and (max-width: 1900px) {
+  .slide canvas {
+    transform: scale(0.666667);
+  }
+}
+
+#full-screen-button {
+  position: absolute;
+  background: rgba(0,0,0,0.3);
+  border: 0;
+  border-radius: 50%;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 8px;
+  z-index: 100;
+  color: white;
+  text-align: left;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0,0,0,0.4);
+  }
+
+  & svg {
+    fill: white;
+  }
+
+  &:after {
+    position: absolute;
+    top: 48px;
+    font-family: Roboto, sans-serif;
+    padding: 20px;
+    min-width: 150px;
+    right: 0;
+    background: rgba(0,0,0,0.8);
+    border-radius: 4px;
+    color: white;
+    content:
+        'Keys:\a'
+        'F - fullscreen\a'
+        'S - (re)start animation\a'
+        'E - stop animation';
+    white-space: pre;
+    display: none;
+  }
+
+  &:hover::after {
+    display: block;
+  }
+}
+
+#menu-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  display: none;
+  padding: 60px;
+  font-size: 20px;
+  line-height: 30px;
+  font-family: Roboto, sans-serif;
+  z-index: 10;
+  background-color: #424242;
+
+  h1 {
+    margin: 0 0 40px 0;
+    color: #aaa;
+  }
+
+  div.item {
+    display: block;
+
+    &.newgroup {
+      margin-top: 20px;
+    }
+
+    a {
+      color: #aaa;
+      text-decoration: none;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}

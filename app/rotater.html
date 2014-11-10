@@ -1,0 +1,305 @@
+<!doctype html>
+<!--
+  Copyright 2014 Google Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+      http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FORM Rotater</title>
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="scripts/formface.js"></script>
+  <link rel="stylesheet" href="styles/rotater.css">
+</head>
+<body>
+
+<div id="slide-container">
+</div>
+
+<div id="menu-container">
+</div>
+
+<button id="full-screen-button">
+  <svg>
+    <path d="M7,14H5v5h5v-2H7V14z M5,10h2V7h3V5H5V10z M17,17h-3v2h5v-5h-2V17z M14,5v2h3v3h2V5H14z"/>
+  </svg>
+</button>
+
+<script>
+
+// global slides
+var CLOCK_SLIDE = {
+  textFn: function() {
+    var date = new Date();
+    return (date.getHours() % 12 || 12) + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+  },
+  duration: 20000
+};
+
+var FORM_SLIDE = {
+  text: 'FORµ',
+  duration: 10000
+};
+
+var HASHTAG_SLIDE = {
+  text: '#FORµSF14',
+  duration: 11000
+};
+
+var TWITTER_SLIDE = {
+  text: '@Google\n  Design',
+  duration: 12000
+};
+
+var PLUS_SLIDE = {
+  text: '+Google\n  Design',
+  duration: 10000
+};
+
+// scenes
+var SCENES = {
+
+  // Can be used as a backup
+  'generic': {
+    title: 'Generic Rotater Slide (Only for emergencies)',
+    theme: formFace.THEME_DARK_BLUE,
+    newGroup: true,
+    order: 1000,
+    slideInfos: [
+      FORM_SLIDE,
+      CLOCK_SLIDE,
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      PLUS_SLIDE
+    ]
+  },
+
+  // Day 1 welcome
+  'day1intro': {
+    title: 'Day 1: Intro',
+    theme: formFace.THEME_DARK_BLUE,
+    order: 10,
+    slideInfos: [
+      {
+        text: 'GOOD\nMORNING',
+        duration: 10000
+      },
+      {
+        text: 'WELCOME',
+        duration: 10000
+      },
+      CLOCK_SLIDE,
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      PLUS_SLIDE,
+      FORM_SLIDE
+    ]
+  },
+
+  // Day 1 coffee 1
+  'day1coffee1': {
+    title: 'Day 1: Coffee 1',
+    theme: formFace.THEME_DARK_RED,
+    order: 20,
+    slideInfos: [
+      {
+        text: 'COFFEE\nBREAK',
+        duration: 11000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      CLOCK_SLIDE,
+      {
+        text: 'UP NEXT:\nA CUBE,\nA SATELLITE\nAND GLASS',
+        duration: 18000
+      },
+      FORM_SLIDE
+    ]
+  },
+
+  // Day 1 lunch
+  'day1lunch': {
+    title: 'Day 1: Lunch',
+    theme: formFace.THEME_DARK_TEAL,
+    order: 30,
+    slideInfos: [
+      {
+        text: 'LUNCH\nTIME',
+        duration: 11000
+      },
+      {
+        text: 'SANDWICHES!',
+        duration: 11000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      CLOCK_SLIDE,
+      {
+        text: 'DESIGN\nEDUCATION\nAT 1:15',
+        duration: 15000
+      },
+      FORM_SLIDE
+    ]
+  },
+
+  // Day 1 coffee 2
+  'day1coffee2': {
+    title: 'Day 1: Coffee 2',
+    theme: formFace.THEME_DARK_GRAY,
+    order: 40,
+    slideInfos: [
+      {
+        text: 'GET MORE\nCOFFEE',
+        duration: 12000
+      },
+      {
+        text: 'CAFFEINATE!',
+        duration: 11000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      CLOCK_SLIDE,
+      {
+        text: 'DESIGN\nTOOLING\nIS NEXT',
+        duration: 15000
+      },
+      FORM_SLIDE
+    ]
+  },
+
+  // Happy hour
+  'happyhour': {
+    title: 'Day 1: Happy Hour',
+    theme: formFace.THEME_DARK_GRAY,
+    order: 50,
+    slideInfos: [
+      {
+        text: 'COM\nTRUISE',
+        duration: 12000,
+        // theme: formFace.THEME_MID_RED
+      },
+      {
+        text: 'DRINKS!',
+        duration: 10000,
+        //theme: formFace.THEME_DARK_TEAL
+      },
+      HASHTAG_SLIDE, // $.extend({}, HASHTAG_SLIDE, {theme: formFace.THEME_DARK_RED}),
+      TWITTER_SLIDE, // $.extend({}, TWITTER_SLIDE, {theme: formFace.THEME_MID_BLUE}),
+      CLOCK_SLIDE, // $.extend({}, CLOCK_SLIDE, {theme: formFace.THEME_DARK_GRAY}),
+      {
+        text: 'NEGRONIS,\nANYONE?',
+        duration: 11000,
+        // theme: formFace.THEME_DARK_RED
+      },
+      FORM_SLIDE // $.extend({}, FORM_SLIDE, {theme: formFace.THEME_DARK_BLUE})
+    ]
+  },
+
+  // Day 2 welcome
+  'day2intro': {
+    title: 'Day 2: Intro',
+    newGroup: true,
+    theme: formFace.THEME_DARK_BLUE,
+    order: 110,
+    slideInfos: [
+      {
+        text: 'DAY 2',
+        duration: 10000
+      },
+      {
+        text: 'WELCOME\nBACK',
+        duration: 12000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      PLUS_SLIDE,
+      CLOCK_SLIDE,
+      FORM_SLIDE
+    ]
+  },
+
+  // Day 2 coffee
+  'day2coffee': {
+    title: 'Day 2: Coffee',
+    theme: formFace.THEME_DARK_TEAL,
+    order: 120,
+    slideInfos: [
+      {
+        text: 'SO.\nMUCH.\nCOFFEE.',
+        duration: 11000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      CLOCK_SLIDE,
+      {
+        text: 'STARTUP\nDESIGN\nAT 11:15',
+        duration: 15000
+      },
+      {
+        text: 'JON WILEY\nIS A STAR',
+        duration: 15000
+      },
+      FORM_SLIDE
+    ]
+  },
+
+  // Day 2 end
+  'day2end': {
+    title: 'Day 2: End',
+    theme: formFace.THEME_DARK_BLUE,
+    order: 130,
+    slideInfos: [
+      {
+        text: 'THANKS!',
+        duration: 10000
+      },
+      {
+        text: 'NEXUS 9',
+        duration: 12000
+      },
+      {
+        text: 'CARDBOARD',
+        duration: 12000
+      },
+      {
+        text: 'SURVEYS!',
+        duration: 10000
+      },
+      {
+        text: 'FEEDBACK!',
+        duration: 10000
+      },
+      {
+        text: 'LUNCH',
+        duration: 12000
+      },
+      {
+        text: 'SANDWICHES!',
+        duration: 12000
+      },
+      HASHTAG_SLIDE,
+      TWITTER_SLIDE,
+      CLOCK_SLIDE,
+      FORM_SLIDE
+    ]
+  }
+
+};
+
+</script>
+
+<script src="scripts/rotater.js"></script>
+
+</body>
+</html>

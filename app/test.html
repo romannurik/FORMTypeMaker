@@ -1,0 +1,163 @@
+<!doctype html>
+<!--
+  Copyright 2014 Google Inc.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+      http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FORM Typeface Test</title>
+
+  <!-- Polymer and Libraries -->
+  <script src="lib/platform/platform.js"></script>
+  <link rel="import" href="lib/paper-elements/paper-elements.html">
+  <link rel="import" href="lib/core-icons/core-icons.html">
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="scripts/formface.js"></script>
+
+  <!-- Page styles -->
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+
+<div id="output">
+  <div id="canvas-container">
+  </div>
+</div>
+
+<div id="toolbox">
+  <paper-button id="theme-changer"></paper-button>
+  <paper-fab icon="av:play-arrow"></paper-fab>
+</div>
+
+<script>
+
+function accelerate(t) {
+  return Math.pow(t, 5);
+}
+
+function decelerate(t) {
+  return 1 - Math.pow(1 - t, 5);
+}
+
+
+var g_theme = formFace.THEME_BLUE;
+var g_text = '&';//'@&“”,';
+var g_formFaceInstance = null;
+
+update();
+
+function update() {
+  resetAnimations();
+  g_formFaceInstance = formFace.createInstance(g_text, {
+    theme: g_theme,
+    letterHeight: 144,
+    densityMultiplier: window.devicePixelRatio
+    //animGlyphDuration: 10000
+  });
+  $('#canvas-container').empty().append(g_formFaceInstance.getCanvas());
+  g_formFaceInstance.draw();
+
+  var lastRect = {};
+  g_formFaceInstance._layoutPass(function(glyphName, rect) {
+    lastRect = rect;
+  });
+
+  $('body').css('background-color', g_theme.colorbg).addClass('theme-' + g_theme.name);
+  // update theme changer
+  $('paper-fab').css('background-color', g_theme.keyColor);
+  $('#theme-changer').css('background-color', getNextTheme().keyColor);
+}
+
+$('#theme-changer').click(function() {
+  $('body').removeClass('theme-' + g_theme.name);
+  g_theme = getNextTheme();
+  update();
+});
+
+function getNextTheme() {
+  var themeIndex = 0;
+  for (themeIndex = 0; themeIndex < formFace.THEMES.length; themeIndex++) {
+    if (g_theme == formFace.THEMES[themeIndex]) {
+      break;
+    }
+  }
+
+  ++themeIndex;
+  if (themeIndex >= formFace.THEMES.length) {
+    themeIndex = 0;
+  }
+
+  return formFace.THEMES[themeIndex];
+}
+
+// Drawing animation
+
+var DRAW_STATES = {
+  NONE: 0,
+  DRAWING_FORWARD: 1
+};
+
+var g_drawStartTime = 0;
+var g_drawState = DRAW_STATES.NONE;
+var g_drawTimeoutHandle = 0;
+var g_drawAnimationFrameHandle = 0;
+
+function continueDrawing() {
+  switch (g_drawState) {
+    case DRAW_STATES.NONE:
+      g_formFaceInstance.setTime(0);
+      g_formFaceInstance.draw();
+      g_drawState = DRAW_STATES.DRAWING_FORWARD;
+      g_drawStartTime = Number(new Date()) + 500;
+      g_formFaceInstance.setAnimInterpolator(accelerate);
+      g_drawTimeoutHandle = window.setTimeout(continueDrawing, 500);
+      break;
+
+    case DRAW_STATES.DRAWING_FORWARD:
+      var t = Number(new Date()) - g_drawStartTime;
+      g_formFaceInstance.setTime(t);
+      g_formFaceInstance.draw();
+      if (t < g_formFaceInstance.getEndTime()) {
+        g_drawAnimationFrameHandle = requestAnimationFrame(continueDrawing);
+      }
+      break;
+  }
+};
+
+$('paper-fab').on('click', function() {
+  resetAnimations();
+  g_drawState = DRAW_STATES.NONE;
+  continueDrawing();
+});
+
+setTimeout(function() {
+  resetAnimations();
+  g_drawState = DRAW_STATES.NONE;
+  continueDrawing();
+}, 200);
+
+function resetAnimations() {
+  if (g_drawTimeoutHandle) {
+    window.clearTimeout(g_drawTimeoutHandle);
+  }
+  if (g_drawAnimationFrameHandle) {
+    window.cancelAnimationFrame(g_drawAnimationFrameHandle);
+  }
+}
+
+</script>
+
+</body>
+</html>

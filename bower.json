@@ -1,0 +1,21 @@
+{
+  "name": "formtypemaker",
+  "main": "formtypemaker",
+  "version": "0.0.1",
+  "authors": [
+    "Roman Nurik <romannurik@google.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.4.2",
+    "paper-elements": "Polymer/paper-elements#~0.4.2",
+    "jquery": "~2.1.1",
+    "modernizr": "~2.8.3"
+  }
+}

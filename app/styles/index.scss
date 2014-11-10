@@ -1,0 +1,251 @@
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Media query mixins */
+
+@mixin mobile() {
+  @media only screen and (max-width: 480px) { @content; }
+}
+
+@mixin darkthemes() {
+  .theme-midgray &,
+  .theme-darkgray &,
+  .theme-midyellow &,
+  .theme-darkyellow &,
+  .theme-midblue &,
+  .theme-darkblue &,
+  .theme-midred &,
+  .theme-darkred &,
+  .theme-midteal &,
+  .theme-darkteal & {
+    @content;
+  }
+}
+
+/* Core layout */
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: RobotoDraft, sans-serif;
+}
+
+#output {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 112px;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.virtualkeyboard {
+    justify-content: flex-start;
+
+    & #canvas-container {
+      transform-origin: 50% 0%;
+    }
+  }
+}
+
+/* can't bottom: 0 a textarea for some reason */
+#input-proxy-container {
+  position: absolute;
+  left: 0;
+  top: -10000px;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+#input-proxy {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  background: 0;
+  border: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#canvas-container {
+  pointer-events: none;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+paper-button::shadow div {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+#cursor {
+  position: absolute;
+  width: 2px;
+  background-color: #888;
+  margin-left: 2px;
+  animation: cursor-blink 0.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  @include darkthemes {
+    background-color: rgba(255,255,255,0.8);
+  }
+}
+
+@keyframes cursor-blink {
+  from {  }
+  to { opacity: 0.2; }
+}
+
+/* Toolbox and bottom stuff */
+
+#toolbox {
+  position: absolute;
+  bottom: 24px;
+  @include mobile { bottom: 16px; }
+  width: 200px;
+  left: 50%;
+  margin-left: -100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+#hash {
+  position: absolute;
+  bottom: 24px;
+  line-height: 56px;
+  left: 24px;
+  text-decoration: none;
+  color: #424242;
+  font-weight: 500;
+  text-align: center;
+  z-index: 2;
+  @include mobile {
+    line-height: 20px;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+  }
+  @include darkthemes {
+    color: rgba(255,255,255,0.8);
+  }
+}
+
+paper-fab {
+  background-color: #02A8F3;
+  color: white;
+  margin: 0 24px;
+  @include mobile { margin: 0 8px; }
+}
+
+#theme-changer {
+  cursor: pointer;
+  position: relative;
+  background-color: red;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  min-width: 40px;
+  margin: 0;
+}
+
+paper-icon-button {
+  color: rgba(0,0,0,0.5);
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(0,0,0,0.25);
+  border-radius: 50%;
+
+  @include darkthemes {
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+}
+
+/* Dialog */
+
+paper-dialog {
+  &::shadow h1 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  &.before-show {
+    display: none;
+  }
+}
+
+paper-progress {
+  width: 240px;
+
+  &::shadow #progressContainer {
+    background-color: #DDD;
+  }
+
+  &::shadow #activeProgress {
+    background-color: #424242;
+  }
+}
+
+#accept-download-button {
+  background-color: #424242;
+  color: #fff;
+}
+
+.theme-blue,
+.theme-midblue,
+.theme-darkblue {
+  paper-progress::shadow #activeProgress, #accept-download-button {
+    background-color: #02A8F3;
+  }
+}
+
+.theme-red,
+.theme-midred,
+.theme-darkred {
+  paper-progress::shadow #activeProgress, #accept-download-button {
+    background-color: #DB4437;
+  }
+}
+
+.theme-yellow,
+.theme-midyellow,
+.theme-darkyellow {
+  paper-progress::shadow #activeProgress, #accept-download-button {
+    background-color: #F4B400;
+  }
+}
+
+.theme-teal,
+.theme-midteal,
+.theme-darkteal {
+  paper-progress::shadow #activeProgress, #accept-download-button {
+    background-color: #009688;
+  }
+}
