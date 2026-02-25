@@ -16,6 +16,8 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "file-saver": "^2.0.5",
+    "jquery": "^4.0.0",
     "modernizr": "^3.13.1"
   }
 }

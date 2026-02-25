@@ -14,6 +14,19 @@
  * limitations under the License.
  */
 
+// Import dependencies
+import $ from 'jquery';
+import Modernizr from 'modernizr';
+import { saveAs } from 'file-saver';
+import './formface.js';
+import { encode64 } from '../lib/gifencoder/b64.js';
+
+// Make jQuery available globally for legacy code
+window.$ = window.jQuery = $;
+window.Modernizr = Modernizr;
+window.saveAs = saveAs;
+window.encode64 = encode64;
+
 (function() {
 
   var ua = navigator.userAgent.toLowerCase();
