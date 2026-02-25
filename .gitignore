@@ -9,3 +9,4 @@ _sandbox
 # Editor directories and files
 .DS_Store
 *.local
+.sass-cache
