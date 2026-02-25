@@ -32,10 +32,9 @@
     <meta name="apple-mobile-web-app-title" content="FORM Type Maker">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
 
-    <!-- Polymer -->
+    <!-- Polymer (legacy - may need updating in future) -->
     <script src="lib/platform/platform.js"></script>
 
-    <!-- <link rel="import" href="lib/paper-elements/paper-elements.html"> -->
     <link rel="import" href="lib/polymer/polymer.html">
     <link rel="import" href="lib/paper-button/paper-button.html">
     <link rel="import" href="lib/paper-dialog/paper-dialog.html">
@@ -53,8 +52,8 @@
     <script src="lib/gifencoder/b64.js"></script>
     <script src="lib/filesaver/FileSaver.min.js"></script>
 
-    <!-- Page styles -->
-    <link rel="stylesheet" href="styles/index.css" shim-shadowdom>
+    <!-- Page styles - Vite will handle SCSS compilation -->
+    <link rel="stylesheet" href="/styles/index.scss">
   </head>
   <body>
 
@@ -80,9 +79,9 @@
 
     <a id="hash" target="_blank" href="https://twitter.com/search?q=%23FORMSF14">#FORMSF14</a>
 
-    <!-- Scripts -->
-    <script src="scripts/formface.js"></script>
-    <script src="scripts/index.js"></script>
+    <!-- Scripts - Vite will handle module bundling -->
+    <script type="module" src="/scripts/formface.js"></script>
+    <script type="module" src="/scripts/index.js"></script>
 
     <!-- Google Analytics -->
     <script>
