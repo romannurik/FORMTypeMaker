@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "file-saver": "^2.0.5",
-    "jquery": "^4.0.0",
-    "modernizr": "^3.13.1"
+    "jquery": "^4.0.0"
   }
 }

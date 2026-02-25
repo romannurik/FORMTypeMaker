@@ -16,14 +16,12 @@
 
 // Import dependencies
 import $ from 'jquery';
-import Modernizr from 'modernizr';
 import { saveAs } from 'file-saver';
 import './formface.js';
 import { encode64 } from '../lib/gifencoder/b64.js';
 
 // Make jQuery available globally for legacy code
 window.$ = window.jQuery = $;
-window.Modernizr = Modernizr;
 window.saveAs = saveAs;
 window.encode64 = encode64;
 
@@ -32,7 +30,7 @@ window.encode64 = encode64;
   var ua = navigator.userAgent.toLowerCase();
   var isMobile = ua.indexOf('mobile') >= 0;
   var isAndroid = ua.indexOf('android') >= 0;
-  var isTouch = Modernizr.touch;
+  var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   var g_theme = formFace.THEME_DEFAULT;
   var g_text = '';
@@ -51,7 +49,7 @@ window.encode64 = encode64;
 
   $(window).resize(update);
 
-  if (Modernizr.touch) {
+  if (isTouch) {
     $('#output').addClass('virtualkeyboard');
   }
 
