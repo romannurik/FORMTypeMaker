@@ -100,7 +100,7 @@ window.encode64 = encode64;
     ga('set', 'dimension1', g_theme.name);
     $('body').css('background-color', g_theme.colorbg).addClass('theme-' + g_theme.name);
     // update theme changer
-    $('paper-fab').css('background-color', g_theme.keyColor);
+    $('.fab').css('background-color', g_theme.keyColor);
     $('#theme-changer').css('background-color', getNextTheme().keyColor);
   }
 
@@ -253,7 +253,7 @@ window.encode64 = encode64;
     }
   };
 
-  $('paper-fab').on('click', function() {
+  $('#play-button').on('click', function() {
     ga('set', 'metric1', g_text.length);
     ga('send', 'event', 'play', 'button-press');
     resetAnimations();
@@ -358,7 +358,7 @@ window.encode64 = encode64;
       }
 
       if ('progress' in e.data) {
-        $('paper-progress').animate({value:e.data.progress * 100}, {duration: 50});
+        $('.progress-bar-fill').css('width', (e.data.progress * 100) + '%');
       }
 
       if (e.data.complete) {
@@ -391,14 +391,18 @@ window.encode64 = encode64;
 
   function showDownloadDialog(show) {
     if (show) {
-      $('paper-progress').get(0).value = 0;
+      $('.progress-bar-fill').css('width', '0%');
       $('#accept-download-button')
           .hide()
           .attr('href', '');
     }
 
     g_disableDownload = show;
-    $('#download-dialog').removeClass('before-show').get(0).opened = show;
+    if (show) {
+      $('#download-dialog').removeClass('before-show');
+    } else {
+      $('#download-dialog').addClass('before-show');
+    }
   }
 
   function resetAnimations() {

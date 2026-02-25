@@ -42,7 +42,7 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  font-family: RobotoDraft, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #output {
@@ -96,9 +96,42 @@ html, body {
   flex: 0 0 auto;
 }
 
-paper-button::shadow div {
+/* Button styles */
+
+.button {
+  font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: 500;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #424242;
+  cursor: pointer;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.button-raised {
+  background-color: #424242;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background-color: #616161;
+  }
+
+  &:active {
+    background-color: #212121;
+  }
 }
 
 #cursor {
@@ -156,11 +189,36 @@ paper-button::shadow div {
   }
 }
 
-paper-fab {
+.fab {
   background-color: #02A8F3;
   color: white;
   margin: 0 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.2s, transform 0.2s;
+
   @include mobile { margin: 0 8px; }
+
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(0);
+  }
+
+  .material-icons {
+    font-size: 24px;
+  }
 }
 
 #theme-changer {
@@ -175,25 +233,59 @@ paper-fab {
   margin: 0;
 }
 
-paper-icon-button {
+.icon-button {
   color: rgba(0,0,0,0.5);
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   border: 1px solid rgba(0,0,0,0.25);
   border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
 
   @include darkthemes {
     color: rgba(255,255,255,0.5);
     border: 1px solid rgba(255,255,255,0.5);
   }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    @include darkthemes {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    @include darkthemes {
+      background-color: rgba(255, 255, 255, 0.16);
+    }
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
 }
 
 /* Dialog */
 
-paper-dialog {
-  &::shadow h1 {
-    font-size: 18px;
-    margin-bottom: 16px;
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: all;
+
+  @media (min-width: 600px) {
+    align-items: center;
   }
 
   &.before-show {
@@ -201,27 +293,62 @@ paper-dialog {
   }
 }
 
-paper-progress {
-  width: 240px;
+.dialog-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
-  &::shadow #progressContainer {
-    background-color: #DDD;
+.dialog-content {
+  position: relative;
+  background: white;
+  border-radius: 4px 4px 0 0;
+  padding: 24px;
+  max-width: 90%;
+  width: 400px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+
+  @media (min-width: 600px) {
+    border-radius: 4px;
   }
 
-  &::shadow #activeProgress {
-    background-color: #424242;
+  h1 {
+    font-size: 18px;
+    margin: 0 0 16px 0;
+    font-weight: 500;
   }
 }
 
-#accept-download-button {
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #DDD;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
   background-color: #424242;
-  color: #fff;
+  width: 0%;
+  transition: width 0.3s;
 }
 
 .theme-blue,
 .theme-midblue,
 .theme-darkblue {
-  paper-progress::shadow #activeProgress, #accept-download-button {
+  .progress-bar-fill, #accept-download-button {
     background-color: #02A8F3;
   }
 }
@@ -229,7 +356,7 @@ paper-progress {
 .theme-red,
 .theme-midred,
 .theme-darkred {
-  paper-progress::shadow #activeProgress, #accept-download-button {
+  .progress-bar-fill, #accept-download-button {
     background-color: #DB4437;
   }
 }
@@ -237,7 +364,7 @@ paper-progress {
 .theme-yellow,
 .theme-midyellow,
 .theme-darkyellow {
-  paper-progress::shadow #activeProgress, #accept-download-button {
+  .progress-bar-fill, #accept-download-button {
     background-color: #F4B400;
   }
 }
@@ -245,7 +372,7 @@ paper-progress {
 .theme-teal,
 .theme-midteal,
 .theme-darkteal {
-  paper-progress::shadow #activeProgress, #accept-download-button {
+  .progress-bar-fill, #accept-download-button {
     background-color: #009688;
   }
 }

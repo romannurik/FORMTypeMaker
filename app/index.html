@@ -32,19 +32,9 @@
     <meta name="apple-mobile-web-app-title" content="FORM Type Maker">
     <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-precomposed.png">
 
-    <!-- Polymer (legacy - may need updating in future) -->
-    <script src="lib/platform/platform.js"></script>
-
-    <link rel="import" href="lib/polymer/polymer.html">
-    <link rel="import" href="lib/paper-button/paper-button.html">
-    <link rel="import" href="lib/paper-dialog/paper-dialog.html">
-    <link rel="import" href="lib/paper-dialog/paper-dialog-transition.html">
-    <link rel="import" href="lib/paper-fab/paper-fab.html">
-    <link rel="import" href="lib/paper-icon-button/paper-icon-button.html">
-    <link rel="import" href="lib/paper-progress/paper-progress.html">
-
-    <link rel="import" href="cmp-icons.html">
-    <link rel="import" href="lib/font-roboto/roboto.html">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Page styles - Vite will handle SCSS compilation -->
     <link rel="stylesheet" href="/styles/index.scss">
@@ -60,16 +50,28 @@
     </div>
 
     <div id="toolbox">
-      <paper-button id="theme-changer" fill="false" recenteringTouch></paper-button>
-      <paper-fab icon="formtypemaker:play-arrow"></paper-fab>
-      <paper-icon-button id="download-button" icon="formtypemaker:file-download"></paper-icon-button>
+      <button id="theme-changer" class="theme-button" aria-label="Change theme"></button>
+      <button id="play-button" class="fab" aria-label="Play animation">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <button id="download-button" class="icon-button" aria-label="Download GIF">
+        <span class="material-icons">file_download</span>
+      </button>
     </div>
 
-    <paper-dialog heading="Generating GIF…" class="before-show" id="download-dialog" transition="paper-dialog-transition-bottom" closeSelector="" autoCloseDisabled backdrop>
-      <paper-progress value="10"></paper-progress>
-      <paper-button id="cancel-download-button" dismissive>Cancel</paper-button>
-      <paper-button id="accept-download-button" raised affirmative>Download GIF</paper-button>
-    </paper-dialog>
+    <div id="download-dialog" class="dialog before-show">
+      <div class="dialog-backdrop"></div>
+      <div class="dialog-content">
+        <h1>Generating GIF…</h1>
+        <div class="progress-bar">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="dialog-actions">
+          <button id="cancel-download-button" class="button">Cancel</button>
+          <button id="accept-download-button" class="button button-raised">Download GIF</button>
+        </div>
+      </div>
+    </div>
 
     <a id="hash" target="_blank" href="https://twitter.com/search?q=%23FORMSF14">#FORMSF14</a>
 
